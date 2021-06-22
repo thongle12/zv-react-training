@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .home-section h1{
+    font-size: 3rem;
+    margin: 1rem;
+    padding: .5rem 1rem;
+  }
+.home-section input{
+    margin-left: 1rem;
+}
+.home-section span{
+    margin-left: 1rem;
+    color:brown;
+}
+  .home-section .btn-start button{
+    margin: 1rem;
+    padding: .5rem 1rem;
+  }
