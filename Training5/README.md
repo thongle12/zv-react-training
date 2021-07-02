@@ -53,7 +53,7 @@ Task 2:
   - You must reuse stucture routes & layout components if these pages have the same layout
   - You must reuse the user detail component
   - If the user logged -> `/login` -> redirect to `/app`
-  - If the user logged -> `/app/*` -> redirect to `/login`
+  - If the user have not logged -> `/app/*` -> redirect to `/login`
   - If the user go to the url path which != `/login` or != `/app/*` then check user logged or not, logged redirect to `/app`, not logged redirect to `/login`
   - Whenever call to backend API and get the 403 status, we should add notification "You have not permission to do it" and redirect to `/app` (You can login with User role andcall **GET** `/users` to get this status)
   - Nice to use redux saga in task
