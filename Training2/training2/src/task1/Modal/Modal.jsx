@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { ChildModal } from "../ChildModal";
+import { CloseButton } from "../CloseButton";
 
 Modal.propTypes = {};
 
@@ -15,7 +15,7 @@ function Modal(props) {
         <button onClick={() => setShow(true)} className="btnOpenModal">
           Open Modal
         </button>
-        <ChildModal show={show} close={closeModalHandler} />
+        <CloseButton show={show} close={closeModalHandler} />
       </div>
     </div>
   );

@@ -8,8 +8,8 @@ import Home from './task3/Home';
 function App() {
   return (
     <>
-      {/* <Modal /> */}
-      <Home/>
+      <Modal />
+      {/* <Home/> */}
     </>
   );
 }

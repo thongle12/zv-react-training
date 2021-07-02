@@ -1,9 +1,9 @@
 import React from 'react';
-import './childmodal.css'
+import './CloseButton.css'
 
 
 
-export const ChildModal = ({ show, close }) => {
+export const CloseButton = ({ show, close }) => {
   return (
     <div className="modal-wrapper"
       style={{
