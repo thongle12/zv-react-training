@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Modal from './task1/Modal/Modal';
+import HomeTask1 from './task1/Home';
 import Home from './task3/Home';
 
 
@@ -8,7 +8,7 @@ import Home from './task3/Home';
 function App() {
   return (
     <>
-      <Modal />
+      <HomeTask1 />
       {/* <Home/> */}
     </>
   );

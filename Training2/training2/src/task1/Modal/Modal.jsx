@@ -1,21 +1,26 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { CloseButton } from "../CloseButton";
+import React, { Children, useState } from "react";
 
-Modal.propTypes = {};
+import "../CloseButton/CloseButton.css";
 
-function Modal(props) {
-  const [show, setShow] = useState(false);
-
-  const closeModalHandler = () => setShow(false);
-
+function Modal({ show, close,children }) {
   return (
     <div>
-      <div>
-        <button onClick={() => setShow(true)} className="btnOpenModal">
-          Open Modal
-        </button>
-        <CloseButton show={show} close={closeModalHandler} />
+      <div
+        className="modal-wrapper"
+        style={{
+          opacity: show ? "1" : "0",
+        }}
+      >
+        <div className="modal-header">
+          <span onClick={close} className="close-modal-btn">
+            x
+          </span>
+        </div>
+        <div className="modal-content">
+          <div className="modal-footer">
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );
