@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BasicLayout from "../../layout";
 import DetailPage from "../../layout/UserDetail";
-import { getUser } from "../../redux/actionCreators/users";
+import { getUser } from "../../redux/actionCreators/myInfo";
 import Preloader from "../../layout/Preloader";
 
 const MyInfoPage = () => {
@@ -13,7 +13,8 @@ const MyInfoPage = () => {
   }, []);
 
   
-  const user = useSelector((state) => state.users);
+  const user = useSelector((state) => state.myInfo);
+  console.log('user', user)
 
   
   if (user.loading || user.user === null) {

@@ -2,7 +2,7 @@ import * as actionTypes from '../../constants/ActionTypes'
 
 
 const initialState = {
-    users: null,
+    user: null,
     error: null,
     loading: false,
 }
@@ -10,17 +10,17 @@ const initialState = {
 
 export default (state = initialState, {payload, type}) => {
     switch (type) {
-        case actionTypes.GET_USERS: {
+        case actionTypes.GET_USER: {
             return {
                 ...state,
                 loading: true
             }
         }
-        case actionTypes.GET_USERS_SUCCESS: {
+        case actionTypes.GET_USER_SUCCESS: {
             return {
                 ...state,
                 loading: false,
-                users: payload.users,
+                user: payload,
                 error: payload.error,
             }
         }

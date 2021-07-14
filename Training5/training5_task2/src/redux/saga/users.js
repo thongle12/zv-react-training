@@ -21,7 +21,7 @@ function* getUsersSaga() {
   }
 }
 
-function* getUserSaga() {
+function* getMyInfoUserSaga() {
   try {
     //gọi api
     const res = yield call(fetchUser);
@@ -40,5 +40,5 @@ function* getUserSaga() {
 export default function* userSaga() {
   //mỗi lần user gửi action GET_USERS thì sẽ chạy hàm getUsersSaga
   yield takeLatest(GET_USERS, getUsersSaga);
-  yield takeLatest(GET_USER, getUserSaga);
+  yield takeLatest(GET_USER, getMyInfoUserSaga);
 }
