@@ -12,6 +12,7 @@ const MyInfoPage = () => {
     dispatch(getUser());
   }, []);
 
+  
   const user = useSelector((state) => state.users);
 
   

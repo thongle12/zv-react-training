@@ -1,50 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Layout, Menu, notification } from "antd";
 import { getUsers } from "../../redux/actionCreators/users";
-import Preloader from '../../layout/Preloader'
+import Preloader from "../../layout/Preloader";
 const { Content, Sider } = Layout;
-const selectUsers = (state) => state.users.users;
 
 const UserPage = ({ children }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [otherUsers,setOtherUsers ] = useState([]);
 
   useEffect(() => {
     dispatch(getUsers());
   }, []);
-  const users = useSelector(selectUsers);
-  
-  const usersReduducer = useSelector((state) => state.users);
 
-  
+  const usersReduducer = useSelector((state) => state.users);
+  const {users, loading, error} = usersReduducer;
 
   useEffect(() => {
-    if (usersReduducer.error) {
-      notification.open({
-        message: "Permission fail",
-        description: usersReduducer.error,
-      });
-      history.push("/app");
+    if (users) {
+      const otherUser = users.filter(
+        (user) => user.role !== "Admin"
+      );
+      setOtherUsers([...otherUser]);
     }
-  }, [usersReduducer.error]);
+  }, [error,users]);
 
-  if (usersReduducer.loading || users === null) {
-    return <Preloader/>;
+  if (loading || users === null) {
+    return <Preloader />;
   }
   if (!users) {
     return <h3>Users Page</h3>;
   }
 
-  const otherUser = users.filter((user) => user.role !== "Admin");
   return (
     <Layout>
       <Content>
         <Layout>
           <Sider className="site-layout-background" width={200}>
             <Menu style={{ height: "100%" }}>
-              {otherUser.map(({ id, fullName }) => (
+              {otherUsers.map(({ id, fullName }) => (
                 <Menu.Item key={id}>
                   <Link to={`/app/users/${id}`}>{fullName}</Link>
                 </Menu.Item>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { store } from "../store";
-import {createBrowserHistory} from "history"
-import {notification} from 'antd'
+import { createBrowserHistory } from "history";
+import { notification } from "antd";
 const API_ROOT = "http://localhost:9000/api";
 
 export const fetchLoginApi = async (payload) => {
@@ -15,9 +15,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-
+    // Do something before request is sent
     const token = store.getState().authorization.token;
-
     config.headers.Authorization = "Bearer " + token;
     return config;
   },
@@ -26,22 +25,23 @@ instance.interceptors.request.use(
   }
 );
 
-
-
-instance.interceptors.response.use(res => {
-    return res
-
-}, err => {
-    const history = createBrowserHistory()
+instance.interceptors.response.use(
+  (res) => {
+    // Do something with response data
+    return res;
+  },
+  (err) => {
+    const history = createBrowserHistory();
     if (err.response.status === 401) {
-        notification.open({
-            message: "401",
-            description: "You don't have permission to do this.",
-        });
-        history.push('/app')
+      notification.open({
+        message: "401",
+        description: "You don't have permission to do this.",
+      });
+      history.push("/app");
     }
     return Promise.reject(err);
-})
+  }
+);
 
 export const fetchUsers = async () => {
   return await instance.get("/users");
