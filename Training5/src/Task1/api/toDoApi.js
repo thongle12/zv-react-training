@@ -4,27 +4,31 @@ import axios from "axios";
 
 const api = "http://localhost:9000/";
 
+// const Logs = () => {
 
 // fetch data logs to api server
-export const getLogs = () => {
-    return async dispatch => {
-        try {
-            setLoading();
-            const res = await fetch(api + "todos");
-            const data = await res.json();
-            dispatch({
-                type: types.GET_LOGS,
-                payload: data,
-            });
-        } catch (err) {
-            console.log(err);
-            dispatch({
-                type: types.LOGS_ERROR,
-                payload: err.response
-            });
-        }
-    };
-};
+// export const getLogs = () => {
+//     return async dispatch => {
+//         try {
+//             setLoading();
+//             // const res = await fetch(api + "todos");
+//             // const data = await res.json();
+//             const res = await axios.get(api + "todos");
+//             const data = await res.data;
+//             console.log('res', data)
+//             dispatch({
+//                 type: types.GET_LOGS,
+//                 payload: data,
+//             });
+//         } catch (err) {
+//             dispatch({
+//                 type: types.LOGS_ERROR,
+//                 payload: err.response
+//             });
+//         }
+//     };
+// };
+
 // add new data logs
 // log là tham số truyền vào action ,là 1 obj gốm các dữ liệu đẩy lên server
 export const addLogs = log => {
@@ -99,15 +103,11 @@ export const setCurrentLog = id => {
     return async dispatch => {
         try {
             setLoading();
-            // truyền id của log cần get data cũ về
-            const res = await axios.get(api + `todos/${id}`);
-            const data = await res.data;
             dispatch({
                 type: types.SET_CURRENT,
-                payload: data
+                payload: id,
             });
         } catch (err) {
-            console.log(err);
             dispatch({
                 type: types.LOGS_ERROR,
                 payload: err.response
@@ -128,13 +128,13 @@ export const searchLogs = text => {
     return async dispatch => {
         try {
             setLoading();
-            const res = await axios.get(api + `todos/${text}`);
-            const data = await res.data;
+            // const res = await axios.get(api + `todos/${text}`);
+            // const data = await res.data;
             
             dispatch({
                 type: types.SEARCH_LOGS,
-                payload: data,
-                // payload: text,
+                // payload: data,
+                payload: text,
             });
         } catch (err) {
             console.log(err);
