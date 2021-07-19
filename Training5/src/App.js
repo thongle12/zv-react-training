@@ -9,24 +9,29 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { getLogs } from "./Task1/api/toDoApi";
 
 const App = () => {
   const dispatch = useDispatch();
   const [dataApi, setDataApi] = useState(null);
+
   useEffect(() => {
-    (async () => {
-      const res = await axios.get("http://localhost:9000/todos")
-      const data = res.data;
-      setDataApi(data);
-      console.log('data th', data)
+    M.AutoInit();
+    // (async () => {
+    //   const res = await axios.get("http://localhost:9000/todos")
+    //   const data = await res.data;
+    //   // setDataApi(data);
+    //   console.log('data th', data)
     //   dispatch({
     //     type: "GET_LOGS",
     //     payload: data,
     // });
-    })()
+    // })()
+    // return () => {
+    // }
+    dispatch(getLogs());
 
-    return () => {
-    }
+
   }, [])
   return (
     <Fragment>

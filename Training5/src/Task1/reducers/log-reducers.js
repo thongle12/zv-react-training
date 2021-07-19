@@ -9,13 +9,29 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+
     case types.GET_LOGS: {
+      console.log('payload received from reducer', action.payload)
       return {
         ...state,
         logs: action.payload,
         loading: false,
       };
     }
+    // case types.GET_LOGS_FAIL: {
+    //   return {
+    //     ...state,
+    //     logs: action.payload,
+    //     loading: false,
+    //   };
+    // }
+    // case types.GET_LOGS_SUCCESS: {
+    //   return {
+    //     ...state,
+    //     logs: action.payload,
+    //     loading: false,
+    //   };
+    // }
 
     // xử lí tạo mới data logs rồi đưa lên server
     case types.ADD_LOG: {
@@ -33,8 +49,9 @@ export default (state = initialState, action) => {
       };
     }
 
+    //Id của Current log
     case types.SET_CURRENT: {
-      console.log("current", action.payload);
+      console.log('payload id current', action.payload)
       return {
         ...state,
         current: action.payload,
@@ -59,9 +76,9 @@ export default (state = initialState, action) => {
     case types.SEARCH_LOGS: {
       return {
         ...state,
-        logs: action.payload
-        // logs: state.logs.filter((log) => log.name.includes(action.payload)),
-        // loading: false
+        // logs: action.payload
+        logs: state.logs.filter((log) => log.name.includes(action.payload)),
+        loading: false
       };
     }
     case types.SET_LOADING: {

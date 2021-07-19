@@ -7,27 +7,27 @@ const api = "http://localhost:9000/";
 // const Logs = () => {
 
 // fetch data logs to api server
-// export const getLogs = () => {
-//     return async dispatch => {
-//         try {
-//             setLoading();
-//             // const res = await fetch(api + "todos");
-//             // const data = await res.json();
-//             const res = await axios.get(api + "todos");
-//             const data = await res.data;
-//             console.log('res', data)
-//             dispatch({
-//                 type: types.GET_LOGS,
-//                 payload: data,
-//             });
-//         } catch (err) {
-//             dispatch({
-//                 type: types.LOGS_ERROR,
-//                 payload: err.response
-//             });
-//         }
-//     };
-// };
+export const getLogs = () => {
+    return async dispatch => {
+        try {
+            // setLoading();
+            // const res = await fetch(api + "todos");
+            // const data = await res.json();
+            const res = await axios.get(api + "todos");
+            const data = await res.data;
+            console.log('res', data)
+            dispatch({
+                type: types.GET_LOGS,
+                payload: data,
+            });
+        } catch (err) {
+            dispatch({
+                type: types.LOGS_ERROR,
+                payload: err.response
+            });
+        }
+    };
+};
 
 // add new data logs
 // log là tham số truyền vào action ,là 1 obj gốm các dữ liệu đẩy lên server
@@ -56,6 +56,7 @@ export const addLogs = log => {
 // tham số id là id của item log cần xóa khi click
 export const deleteLogs = id => {
     return async dispatch => {
+        console.log('id', id)
         try {
             setLoading();
             // thực hiện phương thức post
@@ -81,11 +82,9 @@ export const updateLogs = log => {
         try {
             setLoading();
             // thực hiện phương thức post
-            const res = await axios.put(api + `todos/${log.id}`, log);
-            const data = await res.data;
             dispatch({
                 type: types.UPDATE_LOG,
-                payload: data
+                payload: log
             });
         } catch (err) {
             console.log(err);

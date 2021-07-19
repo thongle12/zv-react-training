@@ -1,11 +1,17 @@
 import React, { useRef } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { searchLogs } from "../../api/toDoApi";
-const SearchBar = ({ searchLogs }) => {
+
+
+const SearchBar = () => {
+   const dispatch = useDispatch();
+
   const text = useRef("");
+
   const onChange = (e) => {
-    searchLogs(text.current.value);
+    dispatch(searchLogs(text.current.value));
   };
+
   return (
     <div>
       <nav style={{ marginBottom: "30px" }} className="blue">
@@ -27,11 +33,5 @@ const SearchBar = ({ searchLogs }) => {
     </div>
   );
 };
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    searchLogs: (text) => {
-      dispatch(searchLogs(text));
-    },
-  };
-};
-export default connect(null, mapDispatchToProps)(SearchBar);
+
+export default SearchBar;

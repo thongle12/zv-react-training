@@ -1,34 +1,48 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { updateLogs } from "../../api/toDoApi";
-import { connect } from "react-redux";
 
-const EditLogModal = ({ current, updateLogs }) => {
+const modalStyle = {
+  width: "75%",
+  height: "75%",
+};
+
+const selectedLog = (state, taskId) =>
+  state.logRecuders.logs.find((task) => task.id === taskId);
+
+const EditLogModal = () => {
+   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [completed, setCompleted] = useState(false);
 
-  console.log("urrent", current);
+  const currentId = useSelector((state) => state.logRecuders.current);
+  const LOGcurrent = useSelector((state) => state.logRecuders.logs);
+
+  // const currentLog = useSelector((state) => selectedLog(state, currentId));
+
+  const currentLog = useSelector((state) =>
+    state.logRecuders.logs?.filter(x=> x.id = "a05970e0-e861-11eb-93e2-cbd8769292fe")
+  );
+
+  // .find((x) => x.completed === true)
 
   useEffect(() => {
-    // nếu đúng là log khi click vào sửa thì sẽ hiện lên data cũ
-    if (current) {
-      setName(current.name);
-      setCompleted(current.completed);
+    if (currentId) {
+      setName(currentId.name);
+      setCompleted(currentId.completed);
     }
-  }, [current]);
+  }, [currentId]);
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (name === "") {
-      
     } else {
       const updateLog = {
-        id: current.id,
+        id: currentId.id,
         name,
         completed,
       };
-      updateLogs(updateLog);
-      // clear filde
+      dispatch(updateLogs(updateLog))
       setName("");
       setCompleted(false);
     }
@@ -69,7 +83,7 @@ const EditLogModal = ({ current, updateLogs }) => {
         <a
           href="#!"
           onClick={(e) => onSubmit(e)}
-          className="modal-close waves-effect blue waves-light btn "
+          className="modal-close waves-effetc blue waves-light btn "
         >
           Enter
         </a>
@@ -77,20 +91,6 @@ const EditLogModal = ({ current, updateLogs }) => {
     </div>
   );
 };
-const modalStyle = {
-  width: "75%",
-  height: "75%",
-};
-const mapStateToProps = (state) => {
-  return {
-    current: state.logRecuders.current,
-  };
-};
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    updateLogs: (log) => {
-      dispatch(updateLogs(log));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(EditLogModal);
+
+
+export default EditLogModal;

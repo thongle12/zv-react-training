@@ -1,25 +1,26 @@
 import React, { useState } from "react";
-
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addLogs } from "../../api/toDoApi";
 
-const AddLogModal = ({ addLogs }) => {
+const modalStyle = {
+  width: "75%",
+  height: "75%",
+};
+const AddLogModal = () => {
+   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [completed, setCompleted] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (name === "") {
-      //nguoi dung chua nhap => khong add
+      //khong add
     } else {
-      console.log(name, completed);
-      //newLog la 1 obj luu du lieu tu nguoi dung nhap vao
       const newLog = {
         name,
         completed,
       };
-      // đẩy dữ liệu lên server thông qua props đã được dispatch
-      addLogs(newLog);
+      dispatch(addLogs(newLog));
       // clear 
       setName("");
       setCompleted(false);
@@ -70,17 +71,7 @@ const AddLogModal = ({ addLogs }) => {
     </div>
   );
 };
-const modalStyle = {
-  width: "75%",
-  height: "75%",
-};
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    addLogs: (log) => {
-      dispatch(addLogs(log));
-    },
-  };
-};
 
-export default connect(null, mapDispatchToProps)(AddLogModal);
+
+export default AddLogModal;

@@ -1,4 +1,7 @@
 export const GET_LOGS = "GET_LOGS";
+export const GET_LOGS_FAIL = "GET_LOGS_FAIL";
+export const GET_LOGS_SUCCESS = "GET_LOGS_SUCCESS";
+
 export const ADD_LOG = "ADD_LOG";
 export const DELETE_LOG = "DELETE_LOG";
 export const SET_CURRENT = "SET_CURRENT";

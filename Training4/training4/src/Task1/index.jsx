@@ -22,6 +22,8 @@ function Task1(props) {
             //id, type is not used
             const { id, type, ...newData } = data;
             setJoke(newData);
+            console.log("joke", joke);
+
           });
       } catch (error) {
         console.log("fail to fetch joke list", error);
@@ -39,7 +41,6 @@ function Task1(props) {
 
   const handleButtonDebounced = debounce(handleGetMoreJoke, 1000);
 
-  console.log("joke", joke);
   return (
     <div>
       <p> {joke.setup} </p>

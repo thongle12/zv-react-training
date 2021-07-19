@@ -21,6 +21,7 @@ function Home() {
           .then((response) => response.json())
           .then((data) => {
             setWorld(data);
+            console.log('world', world)
             setLoading(false);
           });
       } catch (error) {
@@ -32,9 +33,11 @@ function Home() {
   const onChangeHandler = (e) => {
     setInput(e.target.value);
     debouncedChangeHandler(e.target.value);
+    console.log('world', world)
   };
 
   const searchAPIhandler = async (val) => {
+    console.log('world', world)
     setLoading(true);
     try {
       const url = val ? `${URL}name/${val}` : URL;
@@ -77,11 +80,13 @@ function Home() {
         {loading ? (
           <Preloader />
         ) : (
+          
           world.map((data, index) => (
             <tr key={index}>
               <WorldList data={data} />
             </tr>
           ))
+          
         )}
       </table>
     </>
