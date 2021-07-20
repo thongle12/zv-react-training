@@ -1,6 +1,7 @@
+import { notification } from "antd";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addLogs } from "../../api/toDoApi";
+import { useDispatch, useSelector } from "react-redux";
+import { addLogs } from "../../api/logApi";
 
 const modalStyle = {
   width: "75%",
@@ -11,10 +12,15 @@ const AddLogModal = () => {
   const [name, setName] = useState("");
   const [completed, setCompleted] = useState(false);
 
+  const selectedLoading = (state) => state.logRecuders.isCreating;
+  const loading = useSelector(selectedLoading);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (name === "") {
-      //khong add
+    if ( loading || name === "") {
+      notification.open({
+        message: 'Not successful'
+      })
     } else {
       const newLog = {
         name,

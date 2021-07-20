@@ -1,96 +1,87 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateLogs } from "../../api/toDoApi";
+import { updateLogs } from "../../api/logApi";
 
-const modalStyle = {
-  width: "75%",
-  height: "75%",
+
+EditLogModal.propTypes = {
+  closeModal: PropTypes.func,
+  currentId: PropTypes.string,
 };
 
-const selectedLog = (state, taskId) =>
-  state.logRecuders.logs.find((task) => task.id === taskId);
+function EditLogModal({ closeModal, currentId }) {
+  const dispatch = useDispatch();
 
-const EditLogModal = () => {
-   const dispatch = useDispatch();
+  const selectedLoading = (state) => state.logRecuders.isUpdating;
+  const loading = useSelector(selectedLoading);
+
   const [name, setName] = useState("");
   const [completed, setCompleted] = useState(false);
 
-  const currentId = useSelector((state) => state.logRecuders.current);
-  const LOGcurrent = useSelector((state) => state.logRecuders.logs);
-
-  // const currentLog = useSelector((state) => selectedLog(state, currentId));
-
   const currentLog = useSelector((state) =>
-    state.logRecuders.logs?.filter(x=> x.id = "a05970e0-e861-11eb-93e2-cbd8769292fe")
+    state.logRecuders.logs.find((x) => x.id === currentId)
   );
 
-  // .find((x) => x.completed === true)
-
   useEffect(() => {
-    if (currentId) {
-      setName(currentId.name);
-      setCompleted(currentId.completed);
+    if (currentLog) {
+      setName(currentLog.name);
+      setCompleted(currentLog.completed);
     }
-  }, [currentId]);
+  }, [currentLog]);
+
+  const closeTodoModal = () => {
+    closeModal();
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (name === "") {
+    if (name === "" || loading) {
     } else {
       const updateLog = {
-        id: currentId.id,
+        id: currentLog.id,
         name,
         completed,
       };
-      dispatch(updateLogs(updateLog))
+      dispatch(updateLogs(updateLog));
       setName("");
       setCompleted(false);
+      closeModal();
     }
   };
   return (
-    <div id="edit-log-modal" className="modal" style={modalStyle}>
-      <div className="modal-content">
-        <div className="row">
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <label htmlFor="message" className="active">
-            Log Message
-          </label>
-        </div>
-
-        <div className="row">
-          <div className="input-field">
-            <p>
-              <label>
-                <input
-                  type="checkbox"
-                  className="filled-in"
-                  checked={completed}
-                  value={completed}
-                  onChange={(e) => setCompleted(!completed)}
-                />
-                <span>Completed</span>
-              </label>
-            </p>
-          </div>
+    <form>
+      <div className="form-group">
+        <input
+          type="text"
+          name="todo"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div className="row">
+        <div className="input-field">
+          <p>
+            <label>
+              <input
+                type="checkbox"
+                className="filled-in"
+                checked={completed}
+                value={completed}
+                onChange={(e) => setCompleted(!completed)}
+              />
+              <span>Not Completed</span>
+            </label>
+          </p>
         </div>
       </div>
-      <div className="modal-footer">
-        <a
-          href="#!"
-          onClick={(e) => onSubmit(e)}
-          className="modal-close waves-effetc blue waves-light btn "
-        >
-          Enter
-        </a>
-      </div>
-    </div>
+      <button className="btn" onClick={onSubmit}>
+        Save
+      </button>
+      <button className="btn" onClick={closeTodoModal}>
+        Cancel
+      </button>
+    </form>
   );
-};
-
+}
 
 export default EditLogModal;
