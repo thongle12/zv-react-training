@@ -9,7 +9,6 @@ const initialState = {
 export default (state = initialState, {payload, type}) => {
     switch (type) {
         case actionTypes.GET_TOKEN: {
-
             return {
                 ...state,
                 loading: true,
