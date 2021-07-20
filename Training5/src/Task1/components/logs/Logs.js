@@ -55,7 +55,8 @@ const Logs = () => {
               .indexOf(dataSearch.toLowerCase()) > -1
           );
         });
-      } else if (filterParam == "All") {
+      } 
+      else if (filterParam == "All") {
         return searchParam.some((newItem) => {
           return (
             item[newItem]
