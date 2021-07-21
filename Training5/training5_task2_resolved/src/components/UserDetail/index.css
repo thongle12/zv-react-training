@@ -1,0 +1,8 @@
+.detail__content{
+    min-width: 400px;
+}
+.detail__content p{
+    margin-bottom: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
