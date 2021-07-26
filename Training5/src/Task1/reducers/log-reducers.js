@@ -1,33 +1,36 @@
 import * as types from "../constants/ActionTypes";
 
 const initialState = {
-  logs: null,
+  logs: [],
   error: null,
   isFetching: false,
   isCreating: false,
-  isUpdating: false,
+  deleteInProgress: {
+  },
+  updateInProgress: {
+  }
 };
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-
+export default (state = initialState, {type, payload}) => {
+  switch (type) {
     case types.GET_LOGS: {
       return {
         ...state,
         isFetching: true,
+        error: '',
       };
     }
     case types.GET_LOGS_SUCCESS: {
       return {
         ...state,
-        logs: action.payload,
+        logs: payload,
         isFetching: false,
       };
     }
     case types.GET_LOGS_FAIL: {
       return {
         ...state,
-        error: action.payload,
+        error: payload,
         isFetching: false,
       };
     }
@@ -43,14 +46,14 @@ export default (state = initialState, action) => {
     case types.ADD_LOG_SUCCESS: {
       return {
         ...state,
-        logs: [...state.logs, action.payload],
+        logs: [...state.logs, payload],
         isCreating: false,
       };
     }
     case types.ADD_LOG_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: payload,
         isCreating: false,
       };
     }
@@ -58,42 +61,56 @@ export default (state = initialState, action) => {
     case types.DELETE_LOG: {
       return {
         ...state,
+        deleteInProgress:{
+          [payload.id]: true,
+        }
       };
     }
     case types.DELETE_LOG_SUCCESS: {
       return {
         ...state,
-        logs: state.logs.filter((log) => log.id !== action.payload),
-        loading: false,
+        logs: state.logs.filter((log) => log.id !== payload),
+        deleteInProgress:{
+          [payload]: false,
+        }
       };
     }
     case types.DELETE_LOG_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: payload,
+        deleteInProgress:{
+          [payload]: false,
+        }
       };
     }
     //__________________________________________
     case types.UPDATE_LOG: {
       return {
         ...state,
-        isUpdating: true,
+        updateInProgress:{
+          [payload.id]: true,
+        }
       };
     }
     case types.UPDATE_LOG_SUCCESS: {
       return {
         ...state,
         logs: state.logs.map((log) =>
-          log.id === action.payload.id ? action.payload : log,
+          log.id === payload.id ? payload : log,
         ),
-        isUpdating: false,
+        updateInProgress:{
+          [payload.id]: false,
+        }
       };
     }
     case types.UPDATE_LOG_ERROR: {
       return {
         ...state,
-        error: action.payload,
-        isUpdating: false,
+        error: payload,
+        updateInProgress:{
+          [payload.id]: false,
+        }
       };
     }
     

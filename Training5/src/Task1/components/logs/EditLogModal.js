@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateLogs } from "../../api/logApi";
-
+import { getCurrentLog, getDeleteProgress } from "../../reducers/toDoSelector";
+import Preloader from "../layout/Preloader";
 
 EditLogModal.propTypes = {
   closeModal: PropTypes.func,
@@ -18,9 +19,8 @@ function EditLogModal({ closeModal, currentId }) {
   const [name, setName] = useState("");
   const [completed, setCompleted] = useState(false);
 
-  const currentLog = useSelector((state) =>
-    state.logRecuders.logs.find((x) => x.id === currentId)
-  );
+  const currentLog = useSelector((state) => getCurrentLog(state, currentId));
+  const progressLogUpdate = useSelector(getDeleteProgress);
 
   useEffect(() => {
     if (currentLog) {

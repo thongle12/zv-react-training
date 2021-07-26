@@ -2,6 +2,7 @@ import { notification } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addLogs } from "../../api/logApi";
+import { selectedIsCreating } from "../../reducers/toDoSelector";
 
 const modalStyle = {
   width: "75%",
@@ -12,8 +13,7 @@ const AddLogModal = () => {
   const [name, setName] = useState("");
   const [completed, setCompleted] = useState(false);
 
-  const selectedLoading = (state) => state.logRecuders.isCreating;
-  const loading = useSelector(selectedLoading);
+  const loading = useSelector(selectedIsCreating);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -67,7 +67,6 @@ const AddLogModal = () => {
       </div>
       <div className="modal-footer">
         <a
-          href="#!"
           onClick={(e) => onSubmit(e)}
           className="modal-close waves-effect blue waves-light btn "
         >

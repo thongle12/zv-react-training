@@ -1,24 +1,27 @@
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
 import {
+  fetchLog,
   fetchLogSuccess,
   fetchLogError,
+  addLog, 
   addLogSuccess,
   addLogError,
+  deleteLog,
   deleteLogSuccess,
   deleteLogError,
+  updateLog,
   updateLogSuccess,
   updateLogError,
 } from "../actions/toDoApi";
 
-const api = "http://localhost:9000/";
+const url = '/todos';
 
 export const getLogs = () => {
   return async (dispatch) => {
     try {
-      // const res = await fetch(api + "todos");
-      // const data = await res.json();
-      const res = await axios.get(api + "todos");
+      dispatch(fetchLog());
+      const res = await axiosClient.get(url);
       const data = await res.data;
       dispatch(fetchLogSuccess(data));
     } catch (err) {
@@ -32,7 +35,8 @@ export const getLogs = () => {
 export const addLogs = (log) => {
   return async (dispatch) => {
     try {
-      const res = await axios.post(api + "todos", log);
+      dispatch(addLog());
+      const res = await axiosClient.post(url, log);
       const data = await res.data;
       dispatch(addLogSuccess(data));
     } catch (err) {
@@ -45,7 +49,9 @@ export const addLogs = (log) => {
 export const deleteLogs = (id) => {
   return async (dispatch) => {
     try {
-      await axios.delete(api + `todos/${id}`);
+      dispatch(deleteLog(id));
+      const urlDelete = `/todos/${id}`;
+      await axiosClient.delete(urlDelete);
       dispatch(deleteLogSuccess(id));
     } catch (err) {
       dispatch(deleteLogError(err.response));
@@ -56,7 +62,9 @@ export const deleteLogs = (id) => {
 export const updateLogs = (log) => {
   return async (dispatch) => {
     try {
-      const res = await axios.put(api + `todos/${log.id}`, log);
+      dispatch(updateLog(log.id));
+      const urlUpdate = `/todos/${log.id}`;
+      const res = await axiosClient.put(urlUpdate, log);
       const data = await res.data;
       dispatch(updateLogSuccess(data));
     } catch (err) {

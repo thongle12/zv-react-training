@@ -17,8 +17,3 @@ export const UPDATE_LOG_ERROR = "UPDATE_LOG_ERROR";
 
 
 
-
-export const SET_LOADING = "SET_LOADING";
-
-export const LOGS_ERROR = "LOGS_ERROR";
-

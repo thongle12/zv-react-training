@@ -4,8 +4,7 @@ import AddLogModal from "./Task1/components/logs/AddLogModal";
 import EditLogModal from "./Task1/components/logs/EditLogModal";
 import AddBtn from "./Task1/components/layout/AddBtn";
 import M from "materialize-css/dist/js/materialize.min.js";
-import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
-
+import "antd/dist/antd.css"; 
 
 const App = () => {
 

@@ -1,10 +1,9 @@
 import * as types from "../constants/ActionTypes";
 
 
-export const fetchLog = (data) => {
+export const fetchLog = () => {
   return {
     type: types.GET_LOGS,
-    payload: data,
   };
 };
 export const fetchLogSuccess = (data) => {
@@ -22,6 +21,11 @@ export const fetchLogError = (error) => {
 };
 
 //___________________________________________
+export const addLog = () => {
+  return {
+    type: types.ADD_LOG,
+  };
+};
 
 export const addLogSuccess = (data) => {
   return {
@@ -47,10 +51,10 @@ export const deleteLog = (id) => {
   };
 };
 
-export const deleteLogSuccess = (data) => {
+export const deleteLogSuccess = (id) => {
   return {
     type: types.DELETE_LOG_SUCCESS,
-    payload: data,
+    payload: id,
   };
 };
 
@@ -61,10 +65,12 @@ export const deleteLogError = (error) => {
   };
 };
 //___________________________________________
-export const updateLog = (log) => {
+export const updateLog = (id) => {
   return {
     type: types.UPDATE_LOG,
-    payload: log,
+    payload: {
+      id,
+    },
   };
 };
 

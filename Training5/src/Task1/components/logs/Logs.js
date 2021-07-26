@@ -1,71 +1,62 @@
 import { notification } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLogs } from "../../api/logApi";
 import Preloader from "../layout/Preloader";
 import LogItem from "./LogItem";
 import { Select } from "antd";
+import {
+  selectedError,
+  selectedIsFetching,
+  selectedLogs,
+} from "../../reducers/toDoSelector";
 
 const { Option } = Select;
 
-const Logs = () => {
+const checkCompletedStatus = (log,completedStatus) => {
+  return completedStatus  === "All" || log.completed.toString() === completedStatus;
+};
+const checkSearchTerm = (log,searchTerm,searchKeyList) => {
+  return (
+    searchTerm === "" ||
+    searchKeyList.some((key) => log[key].toLowerCase().includes(searchTerm))
+  );
+};
+
+function Logs() {
   const text = useRef("");
-  const [filterParam, setFilterParam] = useState(["All"]);
-  const [searchParam] = useState(["name"]);
-
-  const [dataSearch, setDataSearch] = useState("");
-
+  const [completedStatus, setCompletedStatus ] = useState("All");
+  const [searchKeyList] = useState(["name"]);
+  const [searchTerm, setSearchTerm ] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // gọi function getlogs qua bằng lifecycle của hooks
     dispatch(getLogs());
-    //eslint-disable-next-line
   }, []);
 
-  const selectedError = (state) => state.logRecuders.error;
-  const selectedLoading = (state) => state.logRecuders.isFetching;
-  const selectedLogs = (state) => state.logRecuders.logs;
   const error = useSelector(selectedError);
-  const loading = useSelector(selectedLoading);
-  const logs = useSelector(selectedLogs);
+  const loading = useSelector(selectedIsFetching);
+  const logList = useSelector(selectedLogs);
 
-  // kiểm tra nếu chưa load dc data sẽ hiện loading
-  if (loading || logs === null) {
+  const onChange = () => {
+    setSearchTerm(text.current.value);
+  };
+
+  const filteredLogList = useMemo(() => {
+    return logList.filter((x) => checkCompletedStatus(x,completedStatus) && checkSearchTerm(x,searchTerm,searchKeyList));
+  }, [completedStatus, searchTerm , logList]);
+
+  if (loading || logList === null) {
     return <Preloader />;
   }
   if (error) {
     notification.open({
       message: error,
-    });
-  }
-
-  const onChange = (e) => {
-    setDataSearch(text.current.value);
-  };
-
-  function search(logs) {
-    return logs.filter((item) => {
-      if ( item.completed.toString() == filterParam) {
-        return searchParam.some((newItem) => {
-          return (
-            item[newItem]
-              .toString()
-              .toLowerCase()
-              .indexOf(dataSearch.toLowerCase()) > -1
-          );
-        });
-      } 
-      else if (filterParam == "All") {
-        return searchParam.some((newItem) => {
-          return (
-            item[newItem]
-              .toString()
-              .toLowerCase()
-              .indexOf(dataSearch.toLowerCase()) > -1
-          );
-        });
-      }
     });
   }
 
@@ -92,22 +83,46 @@ const Logs = () => {
           defaultValue="All"
           style={{ width: 120 }}
           onChange={(value) => {
-            setFilterParam(value);
+            setCompletedStatus(value);
           }}
         >
           <Option value="All">All</Option>
           <Option value="false">Complete</Option>
           <Option value="true">NotComplete</Option>
         </Select>
-  
 
-        {search(logs).map((item, index) => (
-         <LogItem log={item} key={index} />
+        {filteredLogList.map((item, index) => (
+          <LogItem log={item} key={index} />
         ))}
-
       </ul>
     </div>
   );
-};
+}
 
 export default Logs;
+
+
+
+  // const filteredLogList = (logList) => {
+  //   return logList.filter((item) => {
+  //     if (item.completed.toString() == completedStatus) {
+  //       return searchKeyList.some((newItem) => {
+  //         return (
+  //           item[newItem]
+  //             .toString()
+  //             .toLowerCase()
+  //             .indexOf(searchTerm.toLowerCase()) > -1
+  //         );
+  //       });
+  //     } else if (filterParam == "All") {
+  //       return searchKeyList.some((newItem) => {
+  //         return (
+  //           item[newItem]
+  //             .toString()
+  //             .toLowerCase()
+  //             .indexOf(searchTerm.toLowerCase()) > -1
+  //         );
+  //       });
+  //     }
+  //   });
+  // };
