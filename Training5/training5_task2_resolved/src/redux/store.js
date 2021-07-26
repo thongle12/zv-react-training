@@ -7,8 +7,6 @@ import rootReducer from "./reducers";
 
 import rootSaga from "../saga";
 
-
-
 const persistConfig = {
   key: "root",
   storage,

@@ -1,8 +1,9 @@
 import { Button, Form, Input } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { login, loginSuccess } from "../../action/login";
+import { login } from "../../action/login";
+import { getToken } from "../../redux/userSelector";
 
 SignIn.propTypes = {};
 
@@ -15,13 +16,14 @@ function SignIn(props) {
   let history = useHistory();
 
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
 
-  useEffect(() => {
-    if (token) {
-      // history.push("/app");
-    }
-  }, [token]);
+  const token = useSelector(getToken);
+
+  // useEffect(() => {
+  //   if (token) {
+  //     // history.push("/app");
+  //   }
+  // }, [token]);
 
   const onFinish = () => {
     dispatch(login(loginInfor));

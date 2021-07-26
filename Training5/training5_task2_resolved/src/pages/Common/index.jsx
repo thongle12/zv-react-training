@@ -72,15 +72,3 @@ function Common(props) {
 
 export default Common;
 
-{/* <Layout>
-  <Sider>
-    <Menu style={{ minHeight: 600 }}>
-      <Menu.Item key="1">
-          Home
-      </Menu.Item>
-    </Menu>
-  </Sider>
-  <Layout>
-    <Content style={{ minHeight: "600px" }}>{props.children}</Content>
-  </Layout>
-</Layout> */}

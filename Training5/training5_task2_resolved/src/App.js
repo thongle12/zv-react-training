@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Users from "./components/Users";
 import PrivateRoute from "./route";
 import MyInfo from "./components/MyInfo";
-import UserParam from "./components/Users/UserParam";
+import FilteredUser from "./components/Users/FilteredUser";
 
 function App() {
   return (
@@ -20,8 +20,8 @@ function App() {
             <Route path="/app/users">
               <Users>
                 <Switch>
-                  <Route exact path="/app/users/:id" component={UserParam} />
-                  <Redirect to="/app/users" />
+                  <Route exact path="/app/users/:idParam" component={FilteredUser} />
+                  <Redirect to="/app/users"/>
                 </Switch>
               </Users>
             </Route>
@@ -30,13 +30,14 @@ function App() {
           </Switch>
         </Common>
       </PrivateRoute>
-
-      {/* <PrivateRoute exact path="/app" layout={Common} component={Home} />
-      <PrivateRoute exact path="/app/users" layout={Common} component={Users} /> */}
-      {/* <PrivateRoute exact path="/app/users/:id" layout={Common} component={UserDetail}/> */}
     </BrowserRouter>
   );
 }
+
+
+export default App;
+
+
 
 // function PrivateRoute({ component: Component, layout: Layout, ...rest }) {
 //   const token = useSelector(state => state.auth.token)
@@ -68,5 +69,3 @@ function App() {
 //     />
 //   );
 // }
-
-export default App;

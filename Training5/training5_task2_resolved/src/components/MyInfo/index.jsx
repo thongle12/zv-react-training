@@ -1,13 +1,12 @@
 import jwtDecode from "jwt-decode";
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getToken } from "../../redux/userSelector";
 import UserDetail from '../UserDetail';
 
+function MyInfo() {
 
-
-function MyInfo(props) {
-
-    const token = useSelector((state) => state.auth.token);
+    const token = useSelector(getToken);
     var decoded = jwtDecode(token);
     
     if(decoded){

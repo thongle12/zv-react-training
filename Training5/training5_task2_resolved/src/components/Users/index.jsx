@@ -1,33 +1,27 @@
+import { Layout, Menu } from "antd";
+import jwtDecode from "jwt-decode";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { getUsers } from "../../action/users";
-import { Button, Menu, Layout } from "antd";
-import jwtDecode from "jwt-decode";
-import UserDetail from "../UserDetail";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
+  Link
 } from "react-router-dom";
+import { getUsers } from "../../action/users";
+import { getAllUsers, getToken } from "../../redux/userSelector";
 
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 
-function Users(props) {
-  const history = useHistory();
+function Users({children}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUsers());
   }, []);
 
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector(getToken);
   var decoded = jwtDecode(token);
 
-  const fullUsersList = useSelector((state) => state.users.users);
-  const anotherUsersList = fullUsersList.filter(
+  const userList = useSelector(getAllUsers);
+  const filteredUserList = userList.filter(
     (user) => user.id !== decoded.id
   );
 
@@ -38,16 +32,14 @@ function Users(props) {
       defaultOpenKeys={["sub1"]}
       mode="inline"
     >
-      {anotherUsersList.map((user, index) => (
-        <Layout>
+      {filteredUserList.map((user, index) => (
+        <Layout key={index}>
           <Sider>
             <Menu style={{ minHeight: 600 }}>
-              <Menu.Item key={index}> <Link to={`/app/users/${user.id}`}>{user.fullName}</Link></Menu.Item>
+              <Menu.Item key="1"> <Link to={`/app/users/${user.id}`}>{user.fullName}</Link></Menu.Item>
             </Menu>
           </Sider>
-          <Layout>
-            <Content style={{ minHeight: "600px" }}>{props.children}</Content>
-          </Layout>
+          {children}
         </Layout>
       ))}
     </Menu>
